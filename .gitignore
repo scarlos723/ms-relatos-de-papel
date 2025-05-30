@@ -1,0 +1,21 @@
+
+# Java & Maven
+**/target/
+**/*.class
+**/*.log
+
+# Docker
+*.env
+**/.env
+docker-compose.override.yml
+
+# IntelliJ
+.idea/
+**/*.iml
+
+# VSCode
+.vscode/
+
+# OS-specific
+.DS_Store
+Thumbs.db
