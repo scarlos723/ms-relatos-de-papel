@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  eureka-server:
+    build:
+      context: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+  books-catalogue:
+    build:
+      context: ./ms-books-catalogue
+    container_name: ms-books-catalogue
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+    environment:
+      - EUREKA_SERVER=http://eureka-server:8080/eureka
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
