@@ -6,7 +6,7 @@ services:
       context: ./eureka-server
     container_name: eureka-server
     ports:
-      - "8080:8080"
+      - "8761:8761"
     networks:
       - backend
 
@@ -19,7 +19,7 @@ services:
     depends_on:
       - eureka-server
     environment:
-      - EUREKA_SERVER=http://eureka-server:8080/eureka
+      - EUREKA_URL=http://eureka-server:8761/eureka
     networks:
       - backend
 
