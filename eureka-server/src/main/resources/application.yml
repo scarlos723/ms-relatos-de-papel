@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  instance:
+    hostname: ${EUREKA_HOST:localhost}
+  server:
+    renewal-percent-threshold: 0.85 #Cuando se cumpla el 85% de llamados fallidos da como muertos los clientes
+
