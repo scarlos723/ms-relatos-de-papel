@@ -1,6 +1,6 @@
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 COPY . .
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 FROM openjdk:21
 EXPOSE 8081

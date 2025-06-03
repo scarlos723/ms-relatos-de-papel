@@ -1,6 +1,36 @@
 version: '3.9'
 
 services:
+
+  eureka-gateway:
+    build:
+      context: ./ms-gateway
+    container_name: ms-gateway
+    ports:
+      - "8762:8762"
+    depends_on:
+      eureka-server:
+        condition: service_started
+    environment:
+      - EUREKA_URL=http://172.28.0.3:8761/eureka
+      - HOSTNAME=172.28.0.1
+     # Adjust this to your frontend's URL
+  mysql-db:
+      image: mysql:8.4
+      container_name: mysql-db
+      environment:
+        MYSQL_ROOT_PASSWORD: rootpass
+        MYSQL_DATABASE: booksdb
+        MYSQL_USER: booksuser
+        MYSQL_PASSWORD: bookspass
+      ports:
+        - "3306:3306"
+      volumes:
+        - ./mysql-db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      networks:
+        backend:
+          ipv4_address: 172.28.0.2
+      
   eureka-server:
     build:
       context: ./eureka-server
@@ -8,7 +38,8 @@ services:
     ports:
       - "8761:8761"
     networks:
-      - backend
+      backend:
+        ipv4_address: 172.28.0.3
 
   books-catalogue:
     build:
@@ -17,12 +48,22 @@ services:
     ports:
       - "8081:8081"
     depends_on:
-      - eureka-server
+      mysql-db:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+
     environment:
-      - EUREKA_URL=http://eureka-server:8761/eureka
+      - DB_URL=jdbc:mysql://172.28.0.2:3306/booksdb
+      - EUREKA_URL=http://172.28.0.3:8761/eureka
     networks:
-      - backend
+      backend:
+        ipv4_address: 172.28.0.4
 
 networks:
   backend:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.0.1
