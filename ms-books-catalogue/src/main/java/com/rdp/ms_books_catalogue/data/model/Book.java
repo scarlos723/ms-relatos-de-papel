@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="books")
@@ -20,8 +21,23 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = Consts.NAME, unique = true)
-    private String name;
+    @Column(name = Consts.TITLE, unique = true)
+    private String title;
+
+    @Column(name = Consts.AUTHOR)
+    private String author;
+
+    @Column(name = Consts.CATEGORY)
+    private String category;
+
+    @Column(name = Consts.ISBN)
+    private String isbn;
+
+    @Column(name = Consts.PUBLICATION_DATE)
+    private LocalDate publicationDate;
+
+    @Column(name = Consts.RATING)
+    private Integer rating;
 
     @Column(name = Consts.PRICE , precision = 10 ,  scale = 2)
     private BigDecimal price;
@@ -33,7 +49,12 @@ public class Book {
     private Boolean visible;
 
     public void update(BookDto productDto) {
-        this.name = productDto.getName();
+        this.title = productDto.getTitle();
+        this.author = productDto.getAuthor();
+        this.category = productDto.getCategory();
+        this.isbn = productDto.getIsbn();
+        this.publicationDate = productDto.getPublicationDate();
+        this.rating = productDto.getRating();
         this.price = productDto.getPrice();
         this.description = productDto.getDescription();
         this.visible = productDto.getVisible();

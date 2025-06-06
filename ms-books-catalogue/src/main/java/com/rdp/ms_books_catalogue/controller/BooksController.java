@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,13 @@ public class BooksController {
     public ResponseEntity<List<Book>> getBooks (
             @RequestHeader Map<String, String> headers,
 
-            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String title,
+
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String isbn,
+            @RequestParam(required = false) LocalDate publicationDate,
+            @RequestParam(required = false) Integer rating,
 
             @RequestParam(required = false) BigDecimal price,
 
@@ -33,7 +40,8 @@ public class BooksController {
             @RequestParam(required = false) Boolean visible
     ){
         log.info("headers: {}", headers);
-        List<Book> products = service.getBooks(name, price, description, visible);
+        List<Book> products = service.getBooks(title,  author, category, isbn, publicationDate, rating,
+                price, description, visible);
 
         if (products != null) {
             return ResponseEntity.ok(products);
