@@ -1,5 +1,6 @@
 package com.rdp.ms_books_catalogue.service;
 
+import com.rdp.ms_books_catalogue.controller.model.BookDto;
 import com.rdp.ms_books_catalogue.data.model.Book;
 
 import java.math.BigDecimal;
@@ -15,4 +16,5 @@ public interface BooksService {
                         Integer rating,
                         BigDecimal price,
                         String description, Boolean visible);
+    Book createBook(BookDto book);
 }

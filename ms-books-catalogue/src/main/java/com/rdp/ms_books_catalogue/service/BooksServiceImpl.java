@@ -1,7 +1,9 @@
 package com.rdp.ms_books_catalogue.service;
 
+import com.rdp.ms_books_catalogue.controller.model.BookDto;
 import com.rdp.ms_books_catalogue.data.BookRepository;
 import com.rdp.ms_books_catalogue.data.model.Book;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,4 +37,25 @@ public class BooksServiceImpl implements BooksService{
         List<Book> books = repository.getBooks();
         return books.isEmpty() ? null : books;
     }
+
+
+    @Transactional
+    public Book createBook(BookDto request) {
+        if (request == null || !StringUtils.hasText(request.getTitle())) {
+            throw new IllegalArgumentException("El título es obligatorio");
+        }
+        Book book = new Book();
+        book.setTitle(request.getTitle());
+        book.setAuthor(request.getAuthor());
+        book.setCategory(request.getCategory());
+        book.setIsbn(request.getIsbn());
+        book.setPublicationDate(request.getPublicationDate());
+        book.setRating(request.getRating());
+        book.setPrice(request.getPrice());
+        book.setDescription(request.getDescription());
+        book.setVisible(request.getVisible() != null ? request.getVisible() : true);
+
+        return repository.save(book);
+    }
+
 }

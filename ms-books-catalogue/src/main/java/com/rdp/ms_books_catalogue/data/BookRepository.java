@@ -13,4 +13,7 @@ public class BookRepository {
     public List<Book> getBooks() {
         return repository.findAll();
     }
+    public Book save(Book book) {
+        return repository.save(book);
+    }
 }

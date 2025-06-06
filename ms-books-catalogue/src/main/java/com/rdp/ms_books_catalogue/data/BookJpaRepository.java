@@ -8,4 +8,5 @@ import java.util.List;
 
 interface BookJpaRepository  extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
     List<Book> findByTitle(String title);
+    
 }
