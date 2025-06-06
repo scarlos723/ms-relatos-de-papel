@@ -6,6 +6,7 @@ import com.rdp.ms_books_catalogue.data.model.Book;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface BooksService {
     List<Book> getBooks(String title,
@@ -17,4 +18,7 @@ public interface BooksService {
                         BigDecimal price,
                         String description, Boolean visible);
     Book createBook(BookDto book);
+    Book updateBook(Long id, BookDto book);
+    Book patchBook(Long id, Map<String, Object> updates);
+    void deleteBook(Long id);
 }

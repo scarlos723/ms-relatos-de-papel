@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -57,5 +58,46 @@ public class BooksServiceImpl implements BooksService{
 
         return repository.save(book);
     }
+    @Transactional
+    public Book updateBook(Long id, BookDto request) {
+        Book book = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Libro no encontrado con id: " + id));
+        // Actualización total
+        book.setTitle(request.getTitle());
+        book.setAuthor(request.getAuthor());
+        book.setCategory(request.getCategory());
+        book.setIsbn(request.getIsbn());
+        book.setPublicationDate(request.getPublicationDate());
+        book.setRating(request.getRating());
+        book.setPrice(request.getPrice());
+        book.setDescription(request.getDescription());
+        book.setVisible(request.getVisible() != null ? request.getVisible() : true);
 
+        return repository.save(book);
+    }
+
+    @Transactional
+    public Book patchBook(Long id, Map<String, Object> updates) {
+        Book book = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Libro no encontrado con id: " + id));
+        // Actualización parcial solo de los campos presentes en updates
+        if (updates.containsKey("title")) book.setTitle((String) updates.get("title"));
+        if (updates.containsKey("author")) book.setAuthor((String) updates.get("author"));
+        if (updates.containsKey("category")) book.setCategory((String) updates.get("category"));
+        if (updates.containsKey("isbn")) book.setIsbn((String) updates.get("isbn"));
+        if (updates.containsKey("publicationDate")) book.setPublicationDate(LocalDate.parse((String) updates.get("publicationDate")));
+        if (updates.containsKey("rating")) book.setRating((Integer) updates.get("rating"));
+        if (updates.containsKey("price")) book.setPrice(new BigDecimal(updates.get("price").toString()));
+        if (updates.containsKey("description")) book.setDescription((String) updates.get("description"));
+        if (updates.containsKey("visible")) book.setVisible((Boolean) updates.get("visible"));
+
+        return repository.save(book);
+    }
+
+    @Transactional
+    public void deleteBook(Long id) {
+        Book book = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Libro no encontrado con id: " + id));
+        repository.delete(book);
+    }
 }

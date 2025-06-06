@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -16,4 +17,10 @@ public class BookRepository {
     public Book save(Book book) {
         return repository.save(book);
     }
+    public Optional<Book> findById(Long id) {
+        return repository.findById(id);
+    }
+    public void delete(Book book) {
+    repository.delete(book);
+}
 }

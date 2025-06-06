@@ -58,4 +58,45 @@ public class BooksController {
         }
     }
 
+    @PutMapping("/books/{id}")
+    public ResponseEntity<Book> updateBook(
+            @PathVariable Long id,
+            @Validated @RequestBody BookDto request) {
+        log.info("Updating book {}: {}", id, request);
+        try {
+            Book updatedBook = service.updateBook(id, request);
+            return ResponseEntity.ok(updatedBook);
+        } catch (IllegalArgumentException e) {
+            log.error("Error updating book: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PatchMapping("/books/{id}")
+    public ResponseEntity<Book> patchBook(
+            @PathVariable Long id,
+            @RequestBody Map<String, Object> updates) {
+        log.info("Patching book {}: {}", id, updates);
+        try {
+            Book patchedBook = service.patchBook(id, updates);
+            return ResponseEntity.ok(patchedBook);
+        } catch (IllegalArgumentException e) {
+            log.error("Error patching book: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        log.info("Deleting book with id: {}", id);
+        try {
+            service.deleteBook(id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            log.error("Error deleting book: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
 }
