@@ -17,7 +17,8 @@ services:
     networks:
         backend:
           ipv4_address: 172.28.0.10
-     # Adjust this to your frontend's URL
+      
+   
   mysql-db:
       image: mysql:8.4
       container_name: mysql-db
@@ -33,7 +34,12 @@ services:
       networks:
         backend:
           ipv4_address: 172.28.0.2
-      
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+        interval: 5s
+        timeout: 5s
+        retries: 10   
+        
   eureka-server:
     build:
       context: ./eureka-server
@@ -52,7 +58,7 @@ services:
       - "8081:8081"
     depends_on:
       mysql-db:
-        condition: service_started
+        condition: service_healthy
       eureka-server:
         condition: service_started
 
@@ -64,24 +70,24 @@ services:
         ipv4_address: 172.28.0.4
 
     
-  books-catalogue-two:
-    build:
-      context: ./ms-books-catalogue
-    container_name: ms-books-catalogue-2
-    ports:
-      - "8082:8081"
-    depends_on:
-      mysql-db:
-        condition: service_started
-      eureka-server:
-        condition: service_started
+  # books-catalogue-two:
+  #   build:
+  #     context: ./ms-books-catalogue
+  #   container_name: ms-books-catalogue-2
+  #   ports:
+  #     - "8082:8081"
+  #   depends_on:
+  #     mysql-db:
+  #       condition: service_started
+  #     eureka-server:
+  #       condition: service_started
 
-    environment:
-      - DB_URL=jdbc:mysql://172.28.0.2:3306/booksdb
-      - EUREKA_URL=http://172.28.0.3:8761/eureka
-    networks:
-      backend:
-        ipv4_address: 172.28.0.5
+  #   environment:
+  #     - DB_URL=jdbc:mysql://172.28.0.2:3306/booksdb
+  #     - EUREKA_URL=http://172.28.0.3:8761/eureka
+  #   networks:
+  #     backend:
+  #       ipv4_address: 172.28.0.5
 
 networks:
   backend:
