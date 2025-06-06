@@ -78,7 +78,7 @@ services:
   #     - "8082:8081"
   #   depends_on:
   #     mysql-db:
-  #       condition: service_started
+  #       condition: service_healthy
   #     eureka-server:
   #       condition: service_started
 
