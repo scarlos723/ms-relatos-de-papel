@@ -3,6 +3,7 @@ package com.rdp.ms_books_catalogue.controller;
 import com.rdp.ms_books_catalogue.controller.model.BookDto;
 import com.rdp.ms_books_catalogue.data.model.Book;
 import com.rdp.ms_books_catalogue.service.BooksService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Books controller", description = "Microservicio encargado del catálogo de la aplicación")
 public class BooksController {
     private final BooksService service;
     @GetMapping("/books")

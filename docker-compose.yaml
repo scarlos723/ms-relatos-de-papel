@@ -38,8 +38,29 @@ services:
         test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
         interval: 5s
         timeout: 5s
-        retries: 10   
-        
+        retries: 10
+
+  mysql-db-payments:
+    image: mysql:8.4
+    container_name: mysql-db-payments
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: paymentsdb
+      MYSQL_USER: paymentsuser
+      MYSQL_PASSWORD: paymentspass
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql-db-payments/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      backend:
+        ipv4_address: 172.28.0.5
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   eureka-server:
     build:
       context: ./eureka-server
