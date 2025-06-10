@@ -39,6 +39,11 @@ public class BooksServiceImpl implements BooksService{
         return books.isEmpty() ? null : books;
     }
 
+    @Override
+    public Book getBook(String id) {
+        return repository.findById(Long.valueOf(id)).orElse(null);
+    }
+
 
     @Transactional
     public Book createBook(BookDto request) {

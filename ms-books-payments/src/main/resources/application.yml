@@ -21,3 +21,6 @@ eureka:
     instance:
         preferIpAddress: true
         hostname: ms-books-payments
+
+getBook:
+    url: http://ms-books-catalogue/books/%s

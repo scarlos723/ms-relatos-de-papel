@@ -17,6 +17,7 @@ public interface BooksService {
                         Integer rating,
                         BigDecimal price,
                         String description, Boolean visible);
+    Book getBook(String id);
     Book createBook(BookDto book);
     Book updateBook(Long id, BookDto book);
     Book patchBook(Long id, Map<String, Object> updates);

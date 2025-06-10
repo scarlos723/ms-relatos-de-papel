@@ -48,6 +48,19 @@ public class BooksController {
         }
     }
 
+    @GetMapping
+    ("/books/{id}")
+    public ResponseEntity<Book> getBook (@PathVariable String id) {
+        log.info("Fetching book with id: {}", id);
+        Book book = service.getBook(id);
+        if (book != null) {
+            return ResponseEntity.ok(book);
+        } else {
+            log.warn("Book with id {} not found", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @PostMapping("/books")
     public ResponseEntity<Book> createBook(@Validated @RequestBody BookDto request) {
         log.info("Creating new book: {}", request);
