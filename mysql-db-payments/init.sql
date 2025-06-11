@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS payments (
 CREATE TABLE IF NOT EXISTS payment_books (
      payment_id INT NOT NULL,
      book_id INT NOT NULL,
-     quantity INT DEFAULT 1,
      PRIMARY KEY (payment_id, book_id),
     FOREIGN KEY (payment_id) REFERENCES payments(id) ON DELETE CASCADE
     ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

@@ -27,9 +27,7 @@ public class PaymentsServiceImpl implements PaymentsService {
     public String createPayment(PaymentRequest payment) {
 
         List<Book> books = payment.getBooks().stream().map(booksFacade::getBook).filter(Objects::nonNull).toList();
-        BigDecimal totalPrice = books.stream()
-                .map(Book::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         if (books.size() != payment.getBooks().size() || books.stream().anyMatch(book -> !book.getVisible())) {
             return null;
         } else {
@@ -39,7 +37,7 @@ public class PaymentsServiceImpl implements PaymentsService {
                     .booksId(books.stream()
                             .map(Book::getId)
                             .collect(Collectors.toList()))
-                    .price(totalPrice)
+                    .price(payment.getPrice())
                     .paymentDate(payment.getPaymentDate())
                     .build();
             repository.save(paymentEntity);

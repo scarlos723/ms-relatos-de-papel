@@ -14,7 +14,6 @@ import java.util.List;
 public class PaymentRequest {
     private Long paymentId;
     private Long userId;
-    private List<Long> booksId;
     private BigDecimal price;
     private java.time.LocalDate paymentDate;
     private List<String> books;

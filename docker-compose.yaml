@@ -90,6 +90,25 @@ services:
       backend:
         ipv4_address: 172.28.0.4
 
+  books-payments:
+    build:
+      context: ./ms-books-payments
+    container_name: ms-books-payments
+    ports:
+      - "8082:8082"
+    depends_on:
+      mysql-db-payments:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+
+    environment:
+      - DB_URL=jdbc:mysql://172.28.0.5:3306/paymentsdb
+      - EUREKA_URL=http://172.28.0.3:8761/eureka
+    networks:
+      backend:
+        ipv4_address: 172.28.0.6
+
     
   # books-catalogue-two:
   #   build:
