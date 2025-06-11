@@ -49,7 +49,15 @@ public class PaymentsServiceImpl implements PaymentsService {
 
     @Override
     public List<Payment> getPayments() {
-        return new ArrayList<>();
+
+        List<Payment> payments = repository.findAll();
+        if (payments.isEmpty()) {
+            log.info("No payments found");
+            return new ArrayList<>();
+        } else {
+            log.info("Found {} payments", payments.size());
+            return payments;
+        }
     }
 
 }

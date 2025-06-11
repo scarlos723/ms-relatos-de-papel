@@ -1,6 +1,11 @@
 spring:
   application:
     name: ms-books-payments
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL:jdbc:mysql://localhost:3306/paymentsdb}
+    username: paymentsuser
+    password: paymentspass
   jpa:
     show-sql: true
     generate-ddl: true
