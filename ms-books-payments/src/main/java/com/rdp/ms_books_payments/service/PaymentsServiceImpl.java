@@ -5,6 +5,7 @@ import com.rdp.ms_books_payments.data.PaymentJpaRepository;
 import com.rdp.ms_books_payments.data.model.Payment;
 import com.rdp.ms_books_payments.facade.BooksFacade;
 import com.rdp.ms_books_payments.facade.model.Book;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class PaymentsServiceImpl implements PaymentsService {
     private final PaymentJpaRepository repository;
 
     @Override
+    @Transactional
     public String createPayments(PaymentRequest payment) {
 
         List<Book> books = payment.getBooks().stream().map(booksFacade::getBook).filter(Objects::nonNull).toList();
@@ -48,6 +50,7 @@ public class PaymentsServiceImpl implements PaymentsService {
     }
 
     @Override
+    @Transactional
     public List<Payment> getPayments() {
 
         List<Payment> payments = repository.findAll();

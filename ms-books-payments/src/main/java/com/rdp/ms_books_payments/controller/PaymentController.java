@@ -22,7 +22,7 @@ public class PaymentController {
     @PostMapping("/payments")
     public String CreatePayment(@RequestBody PaymentRequest request) {
         log.info("Received payment request: {}", request);
-        String paymentId = service.createPayment(request);
+        String paymentId = service.createPayments(request);
         log.info("Payment created with ID: {}", paymentId);
         return paymentId;
     }

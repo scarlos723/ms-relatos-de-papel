@@ -45,6 +45,7 @@ public class BooksServiceImpl implements BooksService{
     }
 
 
+    @Override
     @Transactional
     public Book createBook(BookDto request) {
         if (request == null || !StringUtils.hasText(request.getTitle())) {
@@ -63,6 +64,7 @@ public class BooksServiceImpl implements BooksService{
 
         return repository.save(book);
     }
+    @Override
     @Transactional
     public Book updateBook(Long id, BookDto request) {
         Book book = repository.findById(id)
@@ -81,6 +83,7 @@ public class BooksServiceImpl implements BooksService{
         return repository.save(book);
     }
 
+    @Override
     @Transactional
     public Book patchBook(Long id, Map<String, Object> updates) {
         Book book = repository.findById(id)
@@ -99,10 +102,12 @@ public class BooksServiceImpl implements BooksService{
         return repository.save(book);
     }
 
+    @Override
     @Transactional
-    public void deleteBook(Long id) {
+    public String deleteBook(Long id) {
         Book book = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Libro no encontrado con id: " + id));
         repository.delete(book);
+        return "Libro eliminado con éxito con id: " + id;
     }
 }

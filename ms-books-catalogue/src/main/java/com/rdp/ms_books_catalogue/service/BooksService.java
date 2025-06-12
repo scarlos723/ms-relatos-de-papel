@@ -21,5 +21,5 @@ public interface BooksService {
     Book createBook(BookDto book);
     Book updateBook(Long id, BookDto book);
     Book patchBook(Long id, Map<String, Object> updates);
-    void deleteBook(Long id);
+    String deleteBook(Long id);
 }
