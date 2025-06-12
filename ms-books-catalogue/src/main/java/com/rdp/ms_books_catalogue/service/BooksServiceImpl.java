@@ -69,6 +69,10 @@ public class BooksServiceImpl implements BooksService{
     public Book updateBook(Long id, BookDto request) {
         Book book = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Libro no encontrado con id: " + id));
+        // Validación de campos obligatorios
+        if (request.getTitle() == null || request.getAuthor() == null || request.getCategory() == null || request.getIsbn() == null || request.getPublicationDate() == null || request.getRating() == null || request.getPrice() == null || request.getDescription() == null) {
+            throw new IllegalArgumentException("Todos los campos son obligatorios");
+        }
         // Actualización total
         book.setTitle(request.getTitle());
         book.setAuthor(request.getAuthor());
