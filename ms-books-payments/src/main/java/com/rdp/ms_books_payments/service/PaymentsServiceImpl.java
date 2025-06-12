@@ -24,7 +24,7 @@ public class PaymentsServiceImpl implements PaymentsService {
     private final PaymentJpaRepository repository;
 
     @Override
-    public String createPayment(PaymentRequest payment) {
+    public String createPayments(PaymentRequest payment) {
 
         List<Book> books = payment.getBooks().stream().map(booksFacade::getBook).filter(Objects::nonNull).toList();
 

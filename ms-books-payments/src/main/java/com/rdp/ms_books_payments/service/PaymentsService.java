@@ -6,6 +6,6 @@ import com.rdp.ms_books_payments.data.model.Payment;
 import java.util.List;
 
 public interface PaymentsService {
-    String createPayment(PaymentRequest payment);
+    String createPayments(PaymentRequest payment);
     List<Payment> getPayments();
 }
