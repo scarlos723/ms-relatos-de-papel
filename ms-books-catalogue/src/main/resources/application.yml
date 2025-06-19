@@ -6,8 +6,8 @@ spring:
     url: ${DB_URL:jdbc:mysql://localhost:3306/booksdb}
     username: booksuser
     password: bookspass
-#    hikari:
-#      initialization-fail-timeout: 60000
+  #    hikari:
+  #      initialization-fail-timeout: 60000
   jpa:
     show-sql: true
     generate-ddl: true
@@ -28,3 +28,7 @@ eureka:
   instance:
     preferIpAddress: true
     hostname: ms-books-catalogue
+
+logging:
+  level:
+    org.springframework.boot.autoconfigure: warn

@@ -29,10 +29,9 @@ public class BooksServiceImpl implements BooksService{
                                LocalDate publicationDate,
                                Integer rating,
                                BigDecimal price, String description, Boolean visible){
-        if (StringUtils.hasLength(title) || price!=null || StringUtils.hasLength(description)
+        if (title!=null || price!=null || description!=null || rating!=null || publicationDate!=null || author!=null || category!=null || isbn!=null
                 || visible != null) {
-            System.out.printf("title: %s, author: %s, category: %s, isbn: %s, publicationDate: %s, rating: %s, price: %.2f, description: %s, visible: %s%n",
-                    title, author, category, isbn, publicationDate, rating, price, description, visible);
+           return repository.search(title, author, category, isbn, publicationDate, rating, price, description, visible);
         }
 
         List<Book> books = repository.getBooks();

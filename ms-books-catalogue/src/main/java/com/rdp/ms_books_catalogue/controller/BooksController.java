@@ -106,7 +106,7 @@ public class BooksController {
         log.info("Deleting book with id: {}", id);
         try {
             service.deleteBook(id);
-            return ResponseEntity.noContent().build();
+           return ResponseEntity.ok("Libro eliminado correctamente");
         } catch (IllegalArgumentException e) {
             log.error("Error deleting book: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

@@ -49,7 +49,7 @@ VALUES (
         5,
         24.99,
         'Obra maestra de Gabriel García Márquez',
-        true
+        false
     ),
     (
         '1984',
@@ -71,7 +71,7 @@ VALUES (
         5,
         34.99,
         'La obra más importante de la literatura española',
-        true
+        false
     ),
     (
         'Harry Potter y la Piedra Filosofal',

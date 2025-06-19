@@ -1,0 +1,286 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- description: Generated server url
+  url: http://localhost:8081
+tags:
+- description: Microservicio encargado del catálogo de la aplicación
+  name: Books controller
+paths:
+  /books/{id}:
+    delete:
+      operationId: deleteBook
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: string
+          description: OK
+      tags:
+      - Books controller
+      x-accepts:
+      - '*/*'
+    get:
+      operationId: getBook
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: OK
+      tags:
+      - Books controller
+      x-accepts:
+      - '*/*'
+    patch:
+      operationId: patchBook
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              additionalProperties: {}
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: OK
+      tags:
+      - Books controller
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+    put:
+      operationId: updateBook
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: OK
+      tags:
+      - Books controller
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /books:
+    get:
+      operationId: getBooks
+      parameters:
+      - explode: true
+        in: query
+        name: title
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: author
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: isbn
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: publicationDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: rating
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: price
+        required: false
+        schema:
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: description
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: visible
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/Book'
+                type: array
+          description: OK
+      tags:
+      - Books controller
+      x-accepts:
+      - '*/*'
+    post:
+      operationId: createBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: OK
+      tags:
+      - Books controller
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+components:
+  schemas:
+    BookDto:
+      example:
+        visible: true
+        author: author
+        price: 6.027456183070403
+        isbn: isbn
+        rating: 0
+        description: description
+        title: title
+        category: category
+        publicationDate: 2000-01-23
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        category:
+          type: string
+        isbn:
+          type: string
+        publicationDate:
+          format: date
+          type: string
+        rating:
+          format: int32
+          type: integer
+        price:
+          type: number
+        description:
+          type: string
+        visible:
+          type: boolean
+    Book:
+      example:
+        visible: true
+        author: author
+        price: 1.4658129805029452
+        isbn: isbn
+        rating: 6
+        description: description
+        id: 0
+        title: title
+        category: category
+        publicationDate: 2000-01-23
+      properties:
+        id:
+          format: int64
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        category:
+          type: string
+        isbn:
+          type: string
+        publicationDate:
+          format: date
+          type: string
+        rating:
+          format: int32
+          type: integer
+        price:
+          type: number
+        description:
+          type: string
+        visible:
+          type: boolean
+
