@@ -82,5 +82,5 @@ VALUES (
         4,
         22.99,
         'El primer libro de la saga de J.K. Rowling',
-        true
+        false
     );

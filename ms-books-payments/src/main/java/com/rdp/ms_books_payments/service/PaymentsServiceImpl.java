@@ -31,7 +31,7 @@ public class PaymentsServiceImpl implements PaymentsService {
         List<Book> books = payment.getBooks().stream().map(booksFacade::getBook).filter(Objects::nonNull).toList();
 
         if (books.size() != payment.getBooks().size() || books.stream().anyMatch(book -> !book.getVisible())) {
-            return null;
+            return "Algun libro no existe o no está disponible para la compra.";
         } else {
             Payment paymentEntity = Payment.builder()
                     .paymentId(payment.getPaymentId())
@@ -44,7 +44,7 @@ public class PaymentsServiceImpl implements PaymentsService {
                     .build();
             repository.save(paymentEntity);
 
-            return "Payment created successfully with ID: " + paymentEntity.getPaymentId();
+            return "Pago creado exitosamente con Id: " + paymentEntity.getPaymentId();
         }
 
     }

@@ -105,8 +105,8 @@ public class BooksController {
     public ResponseEntity<String> deleteBook(@PathVariable Long id) {
         log.info("Deleting book with id: {}", id);
         try {
-            service.deleteBook(id);
-           return ResponseEntity.ok("Libro eliminado correctamente");
+            String result = service.deleteBook(id);
+            return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
             log.error("Error deleting book: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
