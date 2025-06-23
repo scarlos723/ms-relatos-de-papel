@@ -8,8 +8,6 @@ import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 @Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features/")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.rdp.ms_books_catalogue")
-
 
 public class CucumberRunnerTest {
 }

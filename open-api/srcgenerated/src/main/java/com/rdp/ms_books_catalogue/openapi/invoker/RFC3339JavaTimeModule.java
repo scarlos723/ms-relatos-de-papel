@@ -18,7 +18,7 @@ import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-18T00:37:42.844715-05:00[America/Bogota]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-19T20:14:11.823620-05:00[America/Bogota]", comments = "Generator version: 7.13.0")
 public class RFC3339JavaTimeModule extends SimpleModule {
 
     public RFC3339JavaTimeModule() {

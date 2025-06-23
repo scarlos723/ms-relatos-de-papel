@@ -60,7 +60,7 @@ import com.rdp.ms_books_catalogue.openapi.invoker.auth.HttpBasicAuth;
 import com.rdp.ms_books_catalogue.openapi.invoker.auth.HttpBearerAuth;
 import com.rdp.ms_books_catalogue.openapi.invoker.auth.ApiKeyAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-18T00:37:42.844715-05:00[America/Bogota]", comments = "Generator version: 7.13.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-06-19T20:14:11.823620-05:00[America/Bogota]", comments = "Generator version: 7.13.0")
 public class ApiClient extends JavaTimeFormatter {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
