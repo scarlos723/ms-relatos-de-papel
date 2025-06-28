@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: ms-elastic-catalogue
+  #datasource:
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    #url: ${DB_URL:jdbc:mysql://localhost:3306/booksdb}
+    #username: booksuser
+    #password: bookspass
+  #    hikari:
+  #      initialization-fail-timeout: 60000
+  #jpa:
+  #  show-sql: true
+  #  generate-ddl: true
+  #  hibernate:
+  #    ddl-auto: update
+  #  properties:
+  #    hibernate:
+  #      dialect: org.hibernate.dialect.MySQLDialect
+  #      format_sql: true
+
+server:
+  port: 8081
+  fullAddress: http://localhost:8081
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+    hostname: ms-elastic-catalogue
+
+logging:
+  level:
+    org.springframework.boot.autoconfigure: warn
+    tracer: TRACE
+
+elasticsearch:
+  host: unir-search-7263342638.us-east-1.bonsaisearch.net
+  credentials:
+    user: nkjj24kif9
+    password: c5wzwuub1

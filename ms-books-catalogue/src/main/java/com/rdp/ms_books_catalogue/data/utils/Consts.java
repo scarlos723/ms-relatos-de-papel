@@ -11,4 +11,5 @@ public class Consts {
     public static final String PRICE = "price" ;
     public static final String DESCRIPTION = "description";
     public static final String VISIBLE = "visible";
+
 }
