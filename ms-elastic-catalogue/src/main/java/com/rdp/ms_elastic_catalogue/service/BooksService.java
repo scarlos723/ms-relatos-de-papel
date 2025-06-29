@@ -9,9 +9,9 @@ public interface BooksService {
             String author,
             String Category,
             String isbn,
-            java.time.LocalDate publicationDate,
+            String publicationDate,
             String rating,
-            java.math.BigDecimal price,
+            String price,
             String description
     );
 }

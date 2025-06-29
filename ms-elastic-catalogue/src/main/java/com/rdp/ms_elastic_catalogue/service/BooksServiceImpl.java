@@ -17,9 +17,9 @@ public class BooksServiceImpl implements BooksService {
             String author,
             String category,
             String isbn,
-            java.time.LocalDate publicationDate,
+            String publicationDate,
             String rating,
-            java.math.BigDecimal price,
+            String price,
             String description
     ) {
         return repository.findBooks(title, author, category, isbn, publicationDate, rating, price, description);

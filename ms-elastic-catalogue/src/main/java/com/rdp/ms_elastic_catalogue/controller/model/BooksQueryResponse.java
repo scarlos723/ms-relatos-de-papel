@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,4 +15,5 @@ import java.util.List;
 @Setter
 public class BooksQueryResponse {
     private List<Book> books;
+    private Map<String, List<AggregationDetails>> aggregations;
 }

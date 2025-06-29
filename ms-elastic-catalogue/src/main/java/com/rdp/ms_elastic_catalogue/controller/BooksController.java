@@ -22,9 +22,9 @@ public class BooksController {
             @RequestParam(required = false) String author,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String isbn,
-            @RequestParam(required = false) java.time.LocalDate publicationDate,
+            @RequestParam(required = false) String publicationDate,
             @RequestParam(required = false) String rating,
-            @RequestParam(required = false) java.math.BigDecimal price,
+            @RequestParam(required = false) String price,
             @RequestParam(required = false) String description
     ) {
         log.info("Fetching books with filters: title={}, author={}, category={}, isbn={}, publicationDate={}, rating={}, price={}, description={}",
