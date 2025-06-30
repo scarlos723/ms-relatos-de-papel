@@ -2,10 +2,10 @@ spring:
   application:
     name: ms-elastic-catalogue
   #datasource:
-    #driver-class-name: com.mysql.cj.jdbc.Driver
-    #url: ${DB_URL:jdbc:mysql://localhost:3306/booksdb}
-    #username: booksuser
-    #password: bookspass
+  #driver-class-name: com.mysql.cj.jdbc.Driver
+  #url: ${DB_URL:jdbc:mysql://localhost:3306/booksdb}
+  #username: booksuser
+  #password: bookspass
   #    hikari:
   #      initialization-fail-timeout: 60000
   #jpa:
@@ -36,7 +36,7 @@ logging:
     tracer: TRACE
 
 elasticsearch:
-  host: unir-search-7263342638.us-east-1.bonsaisearch.net
+  host: ${ELASTICSEARCH_HOST}
   credentials:
-    user: nkjj24kif9
-    password: c5wzwuub1
+    user: ${ELASTICSEARCH_USER}
+    password: ${ELASTICSEARCH_PWD}

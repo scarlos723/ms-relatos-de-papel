@@ -19,26 +19,26 @@ services:
           ipv4_address: 172.28.0.10
       
    
-  mysql-db:
-      image: mysql:8.4
-      container_name: mysql-db
-      environment:
-        MYSQL_ROOT_PASSWORD: rootpass
-        MYSQL_DATABASE: booksdb
-        MYSQL_USER: booksuser
-        MYSQL_PASSWORD: bookspass
-      ports:
-        - "3306:3306"
-      volumes:
-        - ./mysql-db/init.sql:/docker-entrypoint-initdb.d/init.sql
-      networks:
-        backend:
-          ipv4_address: 172.28.0.2
-      healthcheck:
-        test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
-        interval: 5s
-        timeout: 5s
-        retries: 10
+  # mysql-db:
+  #     image: mysql:8.4
+  #     container_name: mysql-db
+  #     environment:
+  #       MYSQL_ROOT_PASSWORD: rootpass
+  #       MYSQL_DATABASE: booksdb
+  #       MYSQL_USER: booksuser
+  #       MYSQL_PASSWORD: bookspass
+  #     ports:
+  #       - "3306:3306"
+  #     volumes:
+  #       - ./mysql-db/init.sql:/docker-entrypoint-initdb.d/init.sql
+  #     networks:
+  #       backend:
+  #         ipv4_address: 172.28.0.2
+  #     healthcheck:
+  #       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+  #       interval: 5s
+  #       timeout: 5s
+  #       retries: 10
 
   mysql-db-payments:
     image: mysql:8.4
@@ -71,24 +71,24 @@ services:
       backend:
         ipv4_address: 172.28.0.3
 
-  books-catalogue:
-    build:
-      context: ./ms-books-catalogue
-    container_name: ms-books-catalogue
-    ports:
-      - "8081:8081"
-    depends_on:
-      mysql-db:
-        condition: service_healthy
-      eureka-server:
-        condition: service_started
+  # books-catalogue:
+  #   build:
+  #     context: ./ms-books-catalogue
+  #   container_name: ms-books-catalogue
+  #   ports:
+  #     - "8081:8081"
+  #   depends_on:
+  #     mysql-db:
+  #       condition: service_healthy
+  #     eureka-server:
+  #       condition: service_started
 
-    environment:
-      - DB_URL=jdbc:mysql://172.28.0.2:3306/booksdb
-      - EUREKA_URL=http://172.28.0.3:8761/eureka
-    networks:
-      backend:
-        ipv4_address: 172.28.0.4
+  #   environment:
+  #     - DB_URL=jdbc:mysql://172.28.0.2:3306/booksdb
+  #     - EUREKA_URL=http://172.28.0.3:8761/eureka
+  #   networks:
+  #     backend:
+  #       ipv4_address: 172.28.0.4
 
   books-payments:
     build:
@@ -110,24 +110,23 @@ services:
         ipv4_address: 172.28.0.6
 
     
-  # books-catalogue-two:
-  #   build:
-  #     context: ./ms-books-catalogue
-  #   container_name: ms-books-catalogue-2
-  #   ports:
-  #     - "8082:8081"
-  #   depends_on:
-  #     mysql-db:
-  #       condition: service_healthy
-  #     eureka-server:
-  #       condition: service_started
-
-  #   environment:
-  #     - DB_URL=jdbc:mysql://172.28.0.2:3306/booksdb
-  #     - EUREKA_URL=http://172.28.0.3:8761/eureka
-  #   networks:
-  #     backend:
-  #       ipv4_address: 172.28.0.5
+  elastic-catalogue:
+    build:
+      context: ./ms-elastic-catalogue
+    container_name: ms-elastic-catalogue
+    ports:
+      - "8081:8081"
+    depends_on:
+      eureka-server:
+        condition: service_started
+    environment:
+      - EUREKA_URL=http://172.28.0.3:8761/eureka
+      - ELASTICSEARCH_HOST=unir-search-7263342638.us-east-1.bonsaisearch.net
+      - ELASTICSEARCH_USER=nkjj24kif9
+      - ELASTICSEARCH_PWD=c5wzwuub1
+    networks:
+      backend:
+        ipv4_address: 172.28.0.4
 
 networks:
   backend:
