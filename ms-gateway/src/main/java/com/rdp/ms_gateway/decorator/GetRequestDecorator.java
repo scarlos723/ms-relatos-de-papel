@@ -45,7 +45,7 @@ public class GetRequestDecorator extends ServerHttpRequestDecorator {
         return UriComponentsBuilder
                 .fromUri((URI) gatewayRequest.getExchange().getAttributes().get(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR))
                 .queryParams(gatewayRequest.getQueryParams())
-                .build()
+                .build(true) // fuerza el encoding de los parámetros
                 .toUri();
     }
 
