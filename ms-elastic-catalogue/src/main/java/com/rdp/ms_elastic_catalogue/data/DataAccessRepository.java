@@ -38,6 +38,7 @@ public class DataAccessRepository {
     private final ElasticsearchOperations elasticsearchOperations;
 
     private final String[] descriptionSearchFields = {"description", "description._2gram", "description._3gram"};
+    private final String[] titleSearchFields = {"title", "title._2gram", "title._3gram"};
 
     @SneakyThrows
     public BooksQueryResponse findBooks(
@@ -53,7 +54,7 @@ public class DataAccessRepository {
         BoolQueryBuilder querySpec = QueryBuilders.boolQuery();
 
         if (!StringUtils.isEmpty(title)) {
-            querySpec.must(QueryBuilders.matchQuery("title", title));
+            querySpec.must(QueryBuilders.multiMatchQuery(title, titleSearchFields));
         }
         if (!StringUtils.isEmpty(author)) {
             querySpec.must(QueryBuilders.matchQuery("author", author));
@@ -68,11 +69,26 @@ public class DataAccessRepository {
             querySpec.must(QueryBuilders.matchQuery("publicationDate", publicationDate));
         }
         if (!StringUtils.isEmpty(rating)) {
-            int ratingInt = Integer.parseInt(rating);
-            querySpec.must(QueryBuilders.termQuery("rating", ratingInt));
+            if (rating.contains("-")) {
+                String[] parts = rating.split("-");
+                double from = Double.parseDouble(parts[0]);
+                double to = Double.parseDouble(parts[1]);
+                querySpec.must(QueryBuilders.rangeQuery("rating").from(from).to(to));
+            } else {
+                double ratingVal = Double.parseDouble(rating);
+                querySpec.must(QueryBuilders.termQuery("rating", ratingVal));
+            }
         }
-        if (price != null) {
-            querySpec.must(QueryBuilders.termQuery("price", price));
+        if (!StringUtils.isEmpty(price)) {
+            if (price.contains("-")) {
+                String[] parts = price.split("-");
+                double from = Double.parseDouble(parts[0]);
+                double to = Double.parseDouble(parts[1]);
+                querySpec.must(QueryBuilders.rangeQuery("price").from(from).to(to));
+            } else {
+                double priceVal = Double.parseDouble(price);
+                querySpec.must(QueryBuilders.termQuery("price", priceVal));
+            }
         }
         if (!StringUtils.isEmpty(description)) {
             querySpec.must(QueryBuilders.multiMatchQuery(description, descriptionSearchFields));
@@ -94,7 +110,12 @@ public class DataAccessRepository {
 
         queryBuilder.addAggregation(AggregationBuilders.range(
                 "rating_agg"
-        ).field("rating").addRange(0, 1).addRange(1, 2).addRange(2, 3).addRange(3, 4).addRange(4, 5));
+        ).field("rating")
+                .addRange(0, 1)
+                .addRange(1, 2)
+                .addRange(2, 3)
+                .addRange(3, 4)
+                .addRange(4, 5));
 
         //price
         queryBuilder.addAggregation(AggregationBuilders.range(
@@ -131,13 +152,6 @@ public class DataAccessRepository {
                 }
 
                 //Si la agregacion es de tipo rango, recorremos tambien los buckets
-                if (value instanceof ParsedRange parsedRange) {
-                    parsedRange.getBuckets().forEach(bucket -> {
-                        aggregations.get(key).add(new AggregationDetails(bucket.getKeyAsString(), (int) bucket.getDocCount()));
-                    });
-                }
-
-                //Si la agregacion es de tipo Numerico, como rating o price, lo manejamos como un rango
                 if (value instanceof ParsedRange parsedRange) {
                     parsedRange.getBuckets().forEach(bucket -> {
                         aggregations.get(key).add(new AggregationDetails(bucket.getKeyAsString(), (int) bucket.getDocCount()));
