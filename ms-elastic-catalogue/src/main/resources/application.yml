@@ -1,6 +1,11 @@
 spring:
   application:
     name: ms-elastic-catalogue
+  data:
+    elasticsearch:
+      uris: ${ELASTICSEARCH_HOST}
+      username: ${ELASTICSEARCH_USER}
+      password: ${ELASTICSEARCH_PWD}
   #datasource:
   #driver-class-name: com.mysql.cj.jdbc.Driver
   #url: ${DB_URL:jdbc:mysql://localhost:3306/booksdb}
@@ -33,9 +38,3 @@ logging:
   level:
     org.springframework.boot.autoconfigure: warn
     tracer: TRACE
-
-elasticsearch:
-  host: ${ELASTICSEARCH_HOST}
-  credentials:
-    user: ${ELASTICSEARCH_USER}
-    password: ${ELASTICSEARCH_PWD}
