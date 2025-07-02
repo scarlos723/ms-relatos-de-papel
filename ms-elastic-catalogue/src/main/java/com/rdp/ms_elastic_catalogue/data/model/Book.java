@@ -17,7 +17,7 @@ public class Book {
     @Id
     private String id;
 
-    @Field(type = FieldType.Text, name = "title")
+    @Field(type = FieldType.Search_As_You_Type, name = "title")
     private String title;
 
     @Field(type = FieldType.Text, name = "author")
