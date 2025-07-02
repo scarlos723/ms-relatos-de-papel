@@ -20,6 +20,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Repository;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder.Type;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -54,7 +55,7 @@ public class DataAccessRepository {
         BoolQueryBuilder querySpec = QueryBuilders.boolQuery();
 
         if (!StringUtils.isEmpty(title)) {
-            querySpec.must(QueryBuilders.multiMatchQuery(title, titleSearchFields));
+            querySpec.must(QueryBuilders.multiMatchQuery(title, titleSearchFields).type(Type.BOOL_PREFIX));
         }
         if (!StringUtils.isEmpty(author)) {
             querySpec.must(QueryBuilders.matchQuery("author", author));
@@ -91,7 +92,7 @@ public class DataAccessRepository {
             }
         }
         if (!StringUtils.isEmpty(description)) {
-            querySpec.must(QueryBuilders.multiMatchQuery(description, descriptionSearchFields));
+            querySpec.must(QueryBuilders.multiMatchQuery(description, descriptionSearchFields).type(Type.BOOL_PREFIX));
         }
         if (!querySpec.hasClauses()) {
             querySpec.must(QueryBuilders.matchAllQuery());
