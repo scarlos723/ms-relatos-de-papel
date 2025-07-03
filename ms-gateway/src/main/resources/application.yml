@@ -16,11 +16,6 @@ spring:
             allowedHeaders: "*" ## All headers allowed
             allowedMethods:
               - POST
-      server:
-        webflux:
-          discovery:
-            locator:
-              enabled: true
 
 server:
   port: ${PORT:8762}
