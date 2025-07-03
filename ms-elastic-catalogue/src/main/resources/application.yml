@@ -20,6 +20,7 @@ spring:
 
 server:
   port: ${PORT:8081}
+  fullAddress: ${HOST:http://localhost}:${PORT:${server.port}}
 
 eureka:
   client:
