@@ -37,8 +37,8 @@ eureka:
 ## Depending on the ROUTE_TABLES_ENABLED environment variable (true by default)
 management:
   endpoint:
-    gateway:
-      enabled: ${ROUTE_TABLES_ENABLED:true}
+     gateway:
+       enabled: ${ROUTE_TABLES_ENABLED:true}
   endpoints:
     web:
       exposure:
