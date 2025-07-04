@@ -1,0 +1,103 @@
+# mysql-payments.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-db-payments
+  namespace: relatos-de-papel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-db-payments
+  template:
+    metadata:
+      labels:
+        app: mysql-db-payments
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: mysql-root-password
+            - name: MYSQL_DATABASE
+              value: "paymentsdb"
+            - name: MYSQL_USER
+              value: "paymentsuser"
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: mysql-payments-password
+          args:
+            - "--innodb-buffer-pool-size=128M"
+            - "--innodb-log-file-size=50M"
+          volumeMounts:
+            - name: mysql-init
+              mountPath: /docker-entrypoint-initdb.d
+          livenessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -h
+                - localhost
+                - -prootpass
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -h
+                - localhost
+                - -prootpass
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: mysql-init
+          configMap:
+            name: mysql-init-script
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-db-payments
+  namespace: relatos-de-papel
+spec:
+  selector:
+    app: mysql-db-payments
+  ports:
+    - port: 3306
+      targetPort: 3306
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-script
+  namespace: relatos-de-papel
+data:
+  init.sql: |
+    SET NAMES utf8mb4;
+    ALTER DATABASE paymentsdb CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+    DROP TABLE IF EXISTS payment_books;
+    DROP TABLE IF EXISTS payments;
+    CREATE TABLE IF NOT EXISTS payments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        payment_id INT NOT NULL UNIQUE,
+        user_id INT NOT NULL,
+        price DECIMAL(10, 2) NOT NULL,
+        payment_date DATETIME NOT NULL
+    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    CREATE TABLE IF NOT EXISTS payment_books (
+         payment_id INT NOT NULL,
+         book_id INT NOT NULL,
+         PRIMARY KEY (payment_id, book_id),
+        FOREIGN KEY (payment_id) REFERENCES payments(id) ON DELETE CASCADE
+    ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

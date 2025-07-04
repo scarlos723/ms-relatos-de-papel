@@ -1,0 +1,66 @@
+# elastic-catalogue.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elastic-catalogue
+  namespace: relatos-de-papel
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: elastic-catalogue
+  template:
+    metadata:
+      labels:
+        app: elastic-catalogue
+    spec:
+      containers:
+        - name: elastic-catalogue
+          image: elastic-catalogue:latest # Cambiar por tu imagen
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+          env:
+            - name: EUREKA_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: EUREKA_URL
+            - name: ELASTICSEARCH_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: ELASTICSEARCH_HOST
+            - name: ELASTICSEARCH_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: ELASTICSEARCH_USER
+            - name: ELASTICSEARCH_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: elasticsearch-password
+          livenessProbe:
+            tcpSocket:
+              port: 8081
+            initialDelaySeconds: 120
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: 8081
+            initialDelaySeconds: 90
+            periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elastic-catalogue
+  namespace: relatos-de-papel
+spec:
+  selector:
+    app: elastic-catalogue
+  ports:
+    - port: 8081
+      targetPort: 8081

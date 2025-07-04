@@ -1,0 +1,55 @@
+# books-payments.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: books-payments
+  namespace: relatos-de-papel
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: books-payments
+  template:
+    metadata:
+      labels:
+        app: books-payments
+    spec:
+      containers:
+        - name: books-payments
+          image: books-payments:latest # Cambiar por tu imagen
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8082
+          env:
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DB_URL_PAYMENTS
+            - name: EUREKA_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: EUREKA_URL
+          livenessProbe:
+            tcpSocket:
+              port: 8082
+            initialDelaySeconds: 120
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: 8082
+            initialDelaySeconds: 90
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: books-payments
+  namespace: relatos-de-papel
+spec:
+  selector:
+    app: books-payments
+  ports:
+    - port: 8082
+      targetPort: 8082

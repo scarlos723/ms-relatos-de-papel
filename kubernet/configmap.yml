@@ -1,0 +1,11 @@
+# configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: relatos-de-papel
+data:
+  EUREKA_URL: "http://eureka-server:8761/eureka"
+  ELASTICSEARCH_HOST: "unir-search-7263342638.us-east-1.bonsaisearch.net"
+  ELASTICSEARCH_USER: "nkjj24kif9"
+  DB_URL_PAYMENTS: "jdbc:mysql://mysql-db-payments:3306/paymentsdb"
