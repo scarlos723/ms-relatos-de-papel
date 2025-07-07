@@ -19,16 +19,16 @@ spring:
   #      format_sql: true
 
 server:
-  port: 8081
-  fullAddress: http://localhost:8081
+  port: ${PORT:8081}
+  fullAddress: ${FULLADDRESS:http://localhost:8081}
 
 eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
   instance:
-    preferIpAddress: true
-    hostname: ms-elastic-catalogue
+    preferIpAddress: false
+    hostname: ${HOSTNAME:ms-elastic-catalogue}
 
 logging:
   level:
